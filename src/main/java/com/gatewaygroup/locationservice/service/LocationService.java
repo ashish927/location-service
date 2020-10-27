@@ -54,12 +54,14 @@ public class LocationService {
         return new ResponseEntity<>(responseDate, HttpStatus.OK);
     }
 
-    public ResponseEntity<CsvData> createCityDetails(@Body CityRequest cityRequest) {
+    public ResponseEntity<List<CsvData>> createCityDetails(@Body CityRequest cityRequest) {
         Map<String, Object> headers = getHeaders(cityRequest);
         Map result = producerTemplate.requestBodyAndHeaders("direct:httpRoute", null, headers, Map.class);
         List<CsvData> csvData = getCsvData((List) result.get("results"));
-        FileUtil.writeIntoCsv(new ArrayList<>(csvData));
-        return new ResponseEntity<>(csvData.stream().findFirst().orElse(new CsvData()), HttpStatus.CREATED);
+        FileUtil.writeIntoCsv(csvData);
+        return new ResponseEntity<>(csvData.stream()
+                .filter(data -> cityRequest.getCityName().equalsIgnoreCase(data.getCity()))
+                .collect(Collectors.toList()), HttpStatus.CREATED);
     }
 
     private List<CsvData> getCsvData(List results) {
