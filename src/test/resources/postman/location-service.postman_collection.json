@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "eaadeff2-24ef-4cb8-aa6a-5273e815b459",
+		"name": "location-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/gatewaygroup/api/location/pune",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/gatewaygroup/api/location/pune",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gatewaygroup",
+						"api",
+						"location",
+						"pune"
+					]
+				},
+				"description": "Get city location details"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/gatewaygroup/api/location",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cityName\" : \"pune\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/gatewaygroup/api/location",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"gatewaygroup",
+						"api",
+						"location"
+					]
+				},
+				"description": "Create city details"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
