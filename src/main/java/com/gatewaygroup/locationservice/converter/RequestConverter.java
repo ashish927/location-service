@@ -35,7 +35,7 @@ public class RequestConverter implements TypeConverters {
     }
 
     @Converter
-    public Map inputToCityRes(InputStreamCache source) {
+    public Map inputStreamCacheToCityMap(InputStreamCache source) {
         try {
             return new ObjectMapper().readValue(source.readAllBytes(), Map.class);
         } catch (IOException e) {
