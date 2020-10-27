@@ -1,6 +1,7 @@
 package com.gatewaygroup.locationservice.route;
 
 import com.gatewaygroup.locationservice.service.LocationService;
+import org.apache.camel.builder.DefaultErrorHandlerBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
@@ -30,11 +31,13 @@ public class WebRoute extends RouteBuilder {
                 .route().routeId("create-city-details")
                 .marshal().json(JsonLibrary.Jackson)
                 .bean(LocationService.class, "createCityDetails")
+                .errorHandler(defaultErrorHandler())
                 .endRest()
 
                 .get("/{city}").description("List of city")
                 .route().routeId("get-city-details")
                 .bean(LocationService.class, "getCityDetails(${header.city})")
+                .errorHandler(defaultErrorHandler())
                 .endRest();
 
     }
