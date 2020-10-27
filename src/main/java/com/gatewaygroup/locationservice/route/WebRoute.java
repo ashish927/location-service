@@ -1,7 +1,8 @@
 package com.gatewaygroup.locationservice.route;
 
+import com.gatewaygroup.locationservice.exception.ExceptionHandler;
 import com.gatewaygroup.locationservice.service.LocationService;
-import org.apache.camel.builder.DefaultErrorHandlerBuilder;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
@@ -22,7 +23,6 @@ public class WebRoute extends RouteBuilder {
                 .port( "8080")
                 .bindingMode(RestBindingMode.json);
 
-
         rest("/location").description("Details of city")
                 .consumes("application/json")
                 .produces("application/json")
@@ -39,6 +39,13 @@ public class WebRoute extends RouteBuilder {
                 .bean(LocationService.class, "getCityDetails(${header.city})")
                 .errorHandler(defaultErrorHandler())
                 .endRest();
+
+        onException(Throwable.class)
+                .handled(true)
+                .log(LoggingLevel.ERROR, "Route faild due to :"+ simple("${exception.message}"))
+                .bean(ExceptionHandler.class, "prepareResponseBody(${exchange}, ${exception})")
+                .marshal().json(JsonLibrary.Jackson)
+                .end();
 
     }
 
