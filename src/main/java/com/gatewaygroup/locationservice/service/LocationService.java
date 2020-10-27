@@ -54,12 +54,12 @@ public class LocationService {
         return new ResponseEntity<>(responseDate, HttpStatus.OK);
     }
 
-    public ResponseEntity<String> createCityDetails(@Body CityRequest cityRequest) {
+    public ResponseEntity<CsvData> createCityDetails(@Body CityRequest cityRequest) {
         Map<String, Object> headers = getHeaders(cityRequest);
         Map result = producerTemplate.requestBodyAndHeaders("direct:httpRoute", null, headers, Map.class);
         List<CsvData> csvData = getCsvData((List) result.get("results"));
-        FileUtil.writeIntoCsv(csvData);
-        return new ResponseEntity<>("City details successfully created", HttpStatus.CREATED);
+        FileUtil.writeIntoCsv(new ArrayList<>(csvData));
+        return new ResponseEntity<>(csvData.stream().findFirst().orElse(new CsvData()), HttpStatus.CREATED);
     }
 
     private List<CsvData> getCsvData(List results) {
