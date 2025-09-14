@@ -5,5 +5,5 @@ camel:
         contextPath: /gatewaygroup/api/*
 opencagedata:
   api:
-    key: ${OPENCAGEDATA_API_KEY:151f65462e4e423e9ac4515f86b03ca5}
+    key: ${OPENCAGEDATA_API_KEY}
     uri: ${OPENCAGEDATA_API_URI:https://api.opencagedata.com/geocode/v1/json?limit=1&bridgeEndpoint=true}
